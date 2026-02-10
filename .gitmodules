@@ -1,0 +1,15 @@
+[submodule "libs/develop-tool-core-lib"]
+	path = libs/develop-tool-core-lib
+	url = https://github.com/devToolApplication/develop-tool-core-lib
+[submodule "services/trade-bot-mcrs"]
+	path = services/trade-bot-mcrs
+	url = https://github.com/devToolApplication/trade-bot-mcrs
+[submodule "services/ai-agent-mcrs"]
+	path = services/ai-agent-mcrs
+	url = https://github.com/devToolApplication/ai-agent-mcrs
+[submodule "services/file-mcrs"]
+	path = services/file-mcrs
+	url = https://github.com/devToolApplication/file-mcrs
+[submodule "web/dev-tool-web"]
+	path = web/dev-tool-web
+	url = https://github.com/devToolApplication/dev-tool-web
