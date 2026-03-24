@@ -78,3 +78,71 @@ printenv KEYCLOAK_PASSWORD
 - [ ] Đã login GitHub thành công bằng ENV credentials.
 - [ ] Đã init/update toàn bộ submodule.
 - [ ] Đã xác thực npm, maven, java hoạt động.
+
+## 6) Lưu ý để sinh AGENTS.md (cho repo có git submodule)
+Repository có sử dụng git submodules (có thể nested).
+Agent **không được** coi repo là đầy đủ nếu chỉ có repo chính.
+
+### ⚠️ Bắt buộc về submodule
+Luôn yêu cầu agent:
+
+```bash
+git submodule sync --recursive
+git submodule update --init --recursive
+```
+
+Phải kiểm tra lại bằng:
+
+```bash
+git submodule status --recursive
+```
+
+Nếu submodule chưa được init → phải dừng và xử lý trước khi làm gì khác.
+
+### 🎯 Định nghĩa “task hoàn thành”
+Task chỉ được coi là thành công khi:
+
+- tất cả submodule (kể cả nested) đã được clone đầy đủ
+- code trong submodule có thể truy cập và đọc được
+- project build / run / test thành công với submodule
+- không bỏ qua logic nằm trong submodule
+
+### ❌ Những hành vi không được phép
+Không được:
+
+- bỏ qua submodule
+- giả định submodule là optional
+- mock/stub thay cho submodule nếu chưa được yêu cầu
+- chỉ sửa repo chính trong khi bug nằm ở submodule
+
+### 🛠 Khi submodule lỗi
+Agent phải:
+
+1. check `.gitmodules`
+2. check URL submodule
+3. sync lại:
+   ```bash
+   git submodule sync --recursive
+   ```
+4. update lại:
+   ```bash
+   git submodule update --init --recursive
+   ```
+5. Nếu lỗi auth → dùng credential có sẵn trong environment
+6. Không được in token/secret ra log
+
+### 🧠 Nguyên tắc xử lý code
+Submodule là một phần của hệ thống, không phải dependency phụ.
+Nếu feature/bug liên quan → phải đọc và có thể sửa submodule.
+Không được workaround bằng cách né submodule.
+
+### ✅ Checklist trước khi kết thúc
+- [ ] Repo chính OK
+- [ ] Tất cả submodule đã init
+- [ ] Recursive submodule OK
+- [ ] Code submodule đã được xét tới nếu liên quan
+- [ ] Project build/test/run thành công
+
+### 🔥 1 câu chốt để AI hiểu đúng
+
+> If submodules are not initialized and available, the task is incomplete even if the main repository is present.
