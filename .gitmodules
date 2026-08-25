@@ -28,3 +28,6 @@
 [submodule "infra/server-install"]
 	path = infra/server-install
 	url = https://github.com/devToolApplication/server-install
+[submodule "tools/agent-skill"]
+	path = tools/agent-skill
+	url = https://github.com/lamld01/agent-skill
