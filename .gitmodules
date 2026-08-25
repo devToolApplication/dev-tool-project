@@ -1,15 +1,30 @@
-[submodule "libs/develop-tool-core-lib"]
+﻿[submodule "libs/develop-tool-core-lib"]
 	path = libs/develop-tool-core-lib
 	url = https://github.com/devToolApplication/develop-tool-core-lib
-[submodule "services/trade-bot-mcrs"]
-	path = services/trade-bot-mcrs
-	url = https://github.com/devToolApplication/trade-bot-mcrs
 [submodule "services/ai-agent-mcrs"]
 	path = services/ai-agent-mcrs
 	url = https://github.com/devToolApplication/ai-agent-mcrs
+[submodule "services/trade-bot-mcrs"]
+	path = services/trade-bot-mcrs
+	url = https://github.com/devToolApplication/trade-bot-mcrs
 [submodule "services/file-mcrs"]
 	path = services/file-mcrs
 	url = https://github.com/devToolApplication/file-mcrs
+[submodule "services/develop-tool-consumer"]
+	path = services/develop-tool-consumer
+	url = https://github.com/devToolApplication/develop-tool-consumer
+[submodule "services/job-service"]
+	path = services/job-service
+	url = https://github.com/devToolApplication/job-service
+[submodule "services/codex-sdk-service"]
+	path = services/codex-sdk-service
+	url = https://github.com/devToolApplication/codex-sdk-service
+[submodule "services/mcp-platform"]
+	path = services/mcp-platform
+	url = https://github.com/devToolApplication/mcp-platform
 [submodule "web/dev-tool-web"]
 	path = web/dev-tool-web
 	url = https://github.com/devToolApplication/dev-tool-web
+[submodule "infra/server-install"]
+	path = infra/server-install
+	url = https://github.com/devToolApplication/server-install
