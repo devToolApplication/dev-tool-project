@@ -30,4 +30,4 @@
 	url = https://github.com/devToolApplication/server-install
 [submodule "tools/agent-skill"]
 	path = tools/agent-skill
-	url = https://github.com/devToolApplication/agent-skill-hub
+	url = https://github.com/devToolApplication/agent-skill-hub.git
