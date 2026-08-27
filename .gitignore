@@ -1,0 +1,37 @@
+# System & IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Dependencies & Build artifacts
+node_modules/
+.npm-cache/
+.m2repo/
+.tmp/
+__pycache__/
+*.pyc
+*.log
+
+# Claude & Codex local runtime
+.claude/
+.codex/
+.tool/
+.ua/
+.worktrees/
+
+# Legacy root workspace copies (now managed under submodules: services/, libs/, web/, infra/, tools/)
+ai-agent-mcrs/
+codex-sdk-api/
+craw-service/
+dev-tool-web/
+develop-tool-consumer/
+develop-tool-core-lib/
+file-mcrs/
+job-scheduler-api/
+mcp-platform/
+proxy-service/
+server-install/
+trade-bot-mcrs/
+agent-skill/
