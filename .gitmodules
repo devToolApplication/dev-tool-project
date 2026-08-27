@@ -12,22 +12,22 @@
 	url = https://github.com/devToolApplication/file-mcrs
 [submodule "services/develop-tool-consumer"]
 	path = services/develop-tool-consumer
-	url = https://github.com/devToolApplication/develop-tool-consumer
+	url = https://github.com/devToolApplication/develop-tool-consumer.git
 [submodule "services/job-service"]
 	path = services/job-service
-	url = https://github.com/devToolApplication/job-service
+	url = https://github.com/devToolApplication/job-service.git
 [submodule "services/codex-sdk-service"]
 	path = services/codex-sdk-service
-	url = https://github.com/devToolApplication/codex-sdk-service
+	url = https://github.com/devToolApplication/codex-sdk-service.git
 [submodule "services/mcp-platform"]
 	path = services/mcp-platform
-	url = https://github.com/devToolApplication/mcp-platform
+	url = https://github.com/devToolApplication/mcp-platform.git
 [submodule "web/dev-tool-web"]
 	path = web/dev-tool-web
 	url = https://github.com/devToolApplication/dev-tool-web
 [submodule "infra/server-install"]
 	path = infra/server-install
-	url = https://github.com/devToolApplication/server-install
+	url = https://github.com/devToolApplication/server-install.git
 [submodule "tools/agent-skill"]
 	path = tools/agent-skill
 	url = https://github.com/devToolApplication/agent-skill-hub.git
