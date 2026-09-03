@@ -39,3 +39,12 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 ## 4. File Encoding trên môi trường Windows
 - **Sai lầm:** Tạo file mới bằng script có dính UTF-8 BOM (`\ufeff`), gây lỗi compile Java `illegal character: '\ufeff'`.
 - **Quy chuẩn:** Luôn xuất file dạng UTF-8 No BOM (`new System.Text.UTF8Encoding($false)`).
+---
+
+## 5. Bắt buộc viết Unit Tests (BẮT BUỘC)
+- **Sai lầm:** Chỉ hoàn thành code BE (Entity, Storage, Service, Controller) mà bỏ qua viết Unit Test.
+- **Quy chuẩn chuẩn hóa:** Mọi module BE mới bắt buộc phải có unit test đi kèm:
+  - **Service Test:** src/test/java/.../{Module}ServiceTest.java dùng Mockito (mock(Storage.class)), test đầy đủ các nhánh CRUD, exception BusinessException(DATA_NOT_FOUND), update partial fields, v.v.
+  - **MapperUtil Test Setup:** Khi khởi tạo MapperUtil trong test cần truyền đủ: 
+ew MapperUtil(new ModelMapper(), new ObjectMapper()).
+  - **Validation Gate:** Luôn chạy .\mvnw.cmd test -Dtest={Module}ServiceTest và .\mvnw.cmd compile đảm bảo 100% test pass và build thành công.
