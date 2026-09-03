@@ -31,3 +31,6 @@
 [submodule "tools/agent-skill"]
 	path = tools/agent-skill
 	url = https://github.com/devToolApplication/agent-skill-hub.git
+[submodule "libs/dev-tool-node-core"]
+	path = libs/dev-tool-node-core
+	url = https://github.com/devToolApplication/dev-tool-node-core.git
