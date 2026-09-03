@@ -31,19 +31,21 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn bắt buộc khi phát tri�
 - **Quy chuẩn:**
   - Nếu dialog đơn giản gắn liền với màn hình, tích hợp trực tiếp vào màn hình chính hoặc nếu tách component thì phải khai báo đầy đủ trong `declarations` / `exports` của Feature Module.
   - Luôn kiểm tra `npm run build` ngay sau khi viết xong để đảm bảo không lỗi template binding hoặc type error.
+
 ---
 
 ## 4. Quản lý Đa ngôn ngữ (i18n)
 - **Sai lầm:** Hardcode chuỗi tiếng Việt/tiếng Anh trực tiếp trong HTML/TS mà không qua hệ thống i18n của dự án.
 - **Quy chuẩn chuẩn hóa:**
-  - Tạo file dịch feature tại src/app/core/i18n/features/{feature-name}.i18n.json với cả 2 key "vi" và "en".
-  - Đăng ký file dịch vào I18nService (src/app/core/i18n/i18n.service.ts) trong object TRANSLATIONS.
-  - Trong template HTML: Sử dụng pipe | translateContent cho label/placeholder hoặc truyền key i18n trực tiếp vào các Shared Components (pp-page-shell, pp-action-toolbar, pp-filter-panel, pp-table).
+  - Tạo file dịch feature tại `src/app/core/i18n/features/{feature-name}.i18n.json` với cả 2 key `"vi"` và `"en"`.
+  - Đăng ký file dịch vào `I18nService` (`src/app/core/i18n/i18n.service.ts`) trong object `TRANSLATIONS`.
+  - Trong template HTML: Sử dụng pipe `| translateContent` cho label/placeholder hoặc truyền key i18n trực tiếp vào các Shared Components (`app-page-shell`, `app-action-toolbar`, `app-filter-panel`, `app-table`).
+
 ---
 
 ## 5. Mobile-First & Responsive Design
-- **Sai lầm:** Dùng layout cứng grid-cols-2 không có breakpoint, hoặc dialog buttons lex-row trên mobile làm tràn màn hình và vỡ form.
+- **Sai lầm:** Dùng layout cứng `grid-cols-2` không có breakpoint, hoặc dialog buttons `flex-row` trên mobile làm tràn màn hình và vỡ form.
 - **Quy chuẩn:**
-  - Form grid: grid grid-cols-1 sm:grid-cols-2 gap-3 để co giãn 1 cột trên mobile và 2 cột trên desktop.
-  - Dialog / Drawer actions: lex flex-col-reverse sm:flex-row justify-end gap-2 (mobile full width stacked, desktop inline).
-  - Truncate text: 	runcate, min-w-0, max-w-full, select-all cho key / code / username để tránh vỡ cột bảng trên màn hình nhỏ.
+  - Form grid: `grid grid-cols-1 sm:grid-cols-2 gap-3` để co giãn 1 cột trên mobile và 2 cột trên desktop.
+  - Dialog / Drawer actions: `flex flex-col-reverse sm:flex-row justify-end gap-2` (mobile full width stacked, desktop inline).
+  - Truncate text: `truncate`, `min-w-0`, `max-w-full`, `select-all` cho key / code / username để tránh vỡ cột bảng trên màn hình nhỏ.
