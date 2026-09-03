@@ -49,13 +49,13 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn bắt buộc khi phát tri�
   - Form grid: `grid grid-cols-1 sm:grid-cols-2 gap-3` để co giãn 1 cột trên mobile và 2 cột trên desktop.
   - Dialog / Drawer actions: `flex flex-col-reverse sm:flex-row justify-end gap-2` (mobile full width stacked, desktop inline).
   - Truncate text: `truncate`, `min-w-0`, `max-w-full`, `select-all` cho key / code / username để tránh vỡ cột bảng trên màn hình nhỏ.
+
 ---
 
 ## 6. Bắt buộc viết Unit & Integration Tests (BẮT BUỘC)
 - **Sai lầm:** Chỉ hoàn thành code UI/Service mà không viết test, để người dùng phải nhắc nhở mới viết.
 - **Quy chuẩn chuẩn hóa:** Mọi tính năng mới hoặc chỉnh sửa bắt buộc phải có test đi kèm:
-  - **Service/Logic Tests:** File .spec.ts tương ứng test toàn bộ function tính toán, parse logic, TOTP, regex, v.v.
-  - **API Service Tests:** Dùng HttpTestingController mock response và verify request URL, method, payload.
+  - **Service/Logic Tests:** File `.spec.ts` tương ứng test toàn bộ function tính toán, parse logic, TOTP, regex, v.v.
+  - **API Service Tests:** Dùng `HttpTestingController` mock response và verify request URL, method, payload.
   - **Component UI Tests:** Test render initial state, trigger toolbar action, mở/đóng modal dialog, toggle state (như password, filter, drawer).
-  - **Validation Gate:** Luôn chạy 
-pm run test (Vitest/Angular testing) và đảm bảo 100% test suite PASS trước khi bàn giao.
+  - **Validation Gate:** Luôn chạy `npm run test` (Vitest/Angular testing) và đảm bảo 100% test suite PASS trước khi bàn giao.
