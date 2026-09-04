@@ -1,4 +1,4 @@
-# Backend (BE) Development Notes & Lessons Learned
+﻿# Backend (BE) Development Notes & Lessons Learned
 
 Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc khi phát triển tính năng trên Backend Spring Boot (`ai-agent-mcrs`, `job-service`, `develop-tool-core-lib`...).
 
@@ -27,7 +27,15 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 
 ---
 
-## 3. Quản lý Exception & Error Codes chuẩn
+## 3. Chuẩn Flowable BPMN & Không tự chế Custom Engine
+- **Sai lầm:** Tự chế các Enum/Object trung gian thừa (`CODE_TASK`, custom graph DAG, custom condition object) làm phân mảnh kiến trúc và gây xung đột với engine.
+- **Quy chuẩn:**
+  - Tận dụng 100% chuẩn BPMN 2.0 và Flowable Engine (`ServiceTask`, `CallActivity`, `ExclusiveGateway`, `IntermediateCatchEvent`, `MessageEvent`).
+  - Toàn bộ tham số cấu hình truyền qua `extensionElements` (`flowable:field`, `flowable:in`, `flowable:out`).
+
+---
+
+## 4. Quản lý Exception & Error Codes chuẩn
 - **Sai lầm:**
   - Tự tạo hoặc import sai package exception (ví dụ: `vn.devTool.core.exceptions.NotFoundException` không tồn tại, sai package `BusinessErrorCode`).
 - **Quy chuẩn:**
@@ -36,15 +44,15 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 
 ---
 
-## 4. File Encoding trên môi trường Windows
+## 5. File Encoding trên môi trường Windows
 - **Sai lầm:** Tạo file mới bằng script có dính UTF-8 BOM (`\ufeff`), gây lỗi compile Java `illegal character: '\ufeff'`.
 - **Quy chuẩn:** Luôn xuất file dạng UTF-8 No BOM (`new System.Text.UTF8Encoding($false)`).
 
 ---
 
-## 5. Bắt buộc viết Unit Tests (BẮT BUỘC)
+## 6. Bắt buộc viết Unit Tests (BẮT BUỘC)
 - **Sai lầm:** Chỉ hoàn thành code BE (Entity, Storage, Service, Controller) mà bỏ qua viết Unit Test.
 - **Quy chuẩn chuẩn hóa:** Mọi module BE mới bắt buộc phải có unit test đi kèm:
   - **Service Test:** `src/test/java/.../{Module}ServiceTest.java` dùng Mockito (`mock(Storage.class)`), test đầy đủ các nhánh CRUD, exception `BusinessException(DATA_NOT_FOUND)`, update partial fields, v.v.
   - **MapperUtil Test Setup:** Khi khởi tạo `MapperUtil` trong test cần truyền đủ: `new MapperUtil(new ModelMapper(), new ObjectMapper())`.
-  - **Validation Gate:** Luôn chạy `.\mvnw.cmd test -Dtest={Module}ServiceTest` và `.\mvnw.cmd compile` đảm bảo 100% test pass và build thành công.
+  - **Validation Gate:** Luôn chạy `.\mvnw.cmd test` và `.\mvnw.cmd compile` đảm bảo 100% test pass và build thành công.

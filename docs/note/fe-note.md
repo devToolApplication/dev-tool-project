@@ -1,4 +1,4 @@
-# Frontend (FE) Development Notes & Lessons Learned
+﻿# Frontend (FE) Development Notes & Lessons Learned
 
 Tài liệu ghi nhớ các lỗi sai và quy chuẩn bắt buộc khi phát triển tính năng trên `dev-tool-web` (Angular).
 
@@ -52,10 +52,12 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn bắt buộc khi phát tri�
 
 ---
 
-## 6. Bắt buộc viết Unit & Integration Tests (BẮT BUỘC)
-- **Sai lầm:** Chỉ hoàn thành code UI/Service mà không viết test, để người dùng phải nhắc nhở mới viết.
-- **Quy chuẩn chuẩn hóa:** Mọi tính năng mới hoặc chỉnh sửa bắt buộc phải có test đi kèm:
-  - **Service/Logic Tests:** File `.spec.ts` tương ứng test toàn bộ function tính toán, parse logic, TOTP, regex, v.v.
-  - **API Service Tests:** Dùng `HttpTestingController` mock response và verify request URL, method, payload.
-  - **Component UI Tests:** Test render initial state, trigger toolbar action, mở/đóng modal dialog, toggle state (như password, filter, drawer).
-  - **Validation Gate:** Luôn chạy `npm run test` (Vitest/Angular testing) và đảm bảo 100% test suite PASS trước khi bàn giao.
+## 6. Quy định bắt buộc Testing: Unit Test & Local Playwright E2E
+- **Sai lầm:** 
+  - Chỉ viết Unit Test hoặc chỉ chạy test mock mà không kiểm tra thực tế trên giao diện/canvas thực.
+  - Không test E2E dẫn đến các lỗi runtime render (như `no diagram to display`, missing context/moddle, lỗi click interaction).
+- **Quy chuẩn bắt buộc:**
+  - **Unit & Integration Tests (`.spec.ts`):** Viết unit test cho Service, Store, Mapper và Component logic. Chạy `npm test` (Vitest) đạt 100% PASS.
+  - **Local Playwright E2E Tests (`e2e/*.spec.ts`):** 
+    - BẮT BUỘC phải chạy kiểm thử E2E Playwright trên môi trường local (`npx playwright test`) để verify trực tiếp giao diện thật (render Canvas, mở Drawer, điền form, click Toolbar Actions).
+    - Không bàn giao tính năng nếu chỉ dựa vào Unit Test đơn thuần.
