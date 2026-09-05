@@ -1,4 +1,4 @@
-﻿# Backend (BE) Development Notes & Lessons Learned
+# Backend (BE) Development Notes & Lessons Learned
 
 Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc khi phát triển tính năng trên Backend Spring Boot (`ai-agent-mcrs`, `job-service`, `develop-tool-core-lib`...).
 
@@ -35,7 +35,19 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 
 ---
 
-## 4. Quản lý Exception & Error Codes chuẩn
+## 4. Xử lý ServiceTask JavaDelegate trong Flowable (BẮT BUỘC)
+- **Sai lầm:**
+  - Nuốt ngoại lệ (catch Exception) rồi tự gán trạng thái `SUCCESS` / `PASS` làm sai lệch nhánh điều kiện rẽ (Gateway).
+  - Đặt các mutable field hoặc `Expression` trong Spring Singleton Bean gây xung đột đa luồng (race condition).
+  - Ghép thông tin nhạy cảm (mật khẩu) dạng plain-text vào `prompt`.
+- **Quy chuẩn chuẩn hóa:**
+  - **Quản lý lỗi chuẩn xác:** Khi thực thi delegate thất bại, phải gán `aiStatus = FAILED`, `finalOutcome = FAIL` và lưu rõ `errorMessage` để Gateway rẽ nhánh lỗi chính xác hoặc ném `BpmnError`.
+  - **Định dạng dữ liệu mạnh (Strongly Typed DTO):** Sử dụng DTO rõ ràng qua FeignClient thay vì dùng `Map<String, Object>` tự do để tránh lỗi ép kiểu runtime.
+  - **Bảo mật:** Thông tin nhạy cảm truyền qua `requestContext` hoặc biến bí mật, không in trực tiếp ra text prompt.
+
+---
+
+## 5. Quản lý Exception & Error Codes chuẩn
 - **Sai lầm:**
   - Tự tạo hoặc import sai package exception (ví dụ: `vn.devTool.core.exceptions.NotFoundException` không tồn tại, sai package `BusinessErrorCode`).
 - **Quy chuẩn:**
@@ -44,13 +56,13 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 
 ---
 
-## 5. File Encoding trên môi trường Windows
+## 6. File Encoding trên môi trường Windows
 - **Sai lầm:** Tạo file mới bằng script có dính UTF-8 BOM (`\ufeff`), gây lỗi compile Java `illegal character: '\ufeff'`.
 - **Quy chuẩn:** Luôn xuất file dạng UTF-8 No BOM (`new System.Text.UTF8Encoding($false)`).
 
 ---
 
-## 6. Bắt buộc viết Unit Tests (BẮT BUỘC)
+## 7. Bắt buộc viết Unit Tests (BẮT BUỘC)
 - **Sai lầm:** Chỉ hoàn thành code BE (Entity, Storage, Service, Controller) mà bỏ qua viết Unit Test.
 - **Quy chuẩn chuẩn hóa:** Mọi module BE mới bắt buộc phải có unit test đi kèm:
   - **Service Test:** `src/test/java/.../{Module}ServiceTest.java` dùng Mockito (`mock(Storage.class)`), test đầy đủ các nhánh CRUD, exception `BusinessException(DATA_NOT_FOUND)`, update partial fields, v.v.
