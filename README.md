@@ -15,7 +15,7 @@ Workspace repository tổng hợp toàn bộ hệ sinh thái dự án **Dev Tool
 | **services/file-mcrs** | Java 21 / Spring Boot | [file-mcrs](https://github.com/devToolApplication/file-mcrs) | Quản lý upload, download file & assets |
 | **services/develop-tool-consumer** | Java 21 / Spring Boot | [develop-tool-consumer](https://github.com/devToolApplication/develop-tool-consumer) | Kafka consumer & background processing |
 | **services/job-service** | Node.js / TypeScript | [job-service](https://github.com/devToolApplication/job-service) | Lập lịch và quản lý cron jobs |
-| **services/codex-sdk-service** | Node.js / TypeScript | [codex-sdk-service](https://github.com/devToolApplication/codex-sdk-service) | Codex SDK API bridge service |
+| **services/ai-agent-sdk-service** | Node.js / TypeScript | [ai-agent-sdk-service](https://github.com/devToolApplication/ai-agent-sdk-service) | AI Agent SDK (Codex & Claude) runtime service |
 | **services/mcp-platform** | TypeScript | [mcp-platform](https://github.com/devToolApplication/mcp-platform) | Registry & MCP runtime platform |
 | **infra/server-install** | Docker / Shell | [server-install](https://github.com/devToolApplication/server-install) | Hạ tầng Docker & k8s deployment |
 

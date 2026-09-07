@@ -1,0 +1,80 @@
+<h2>Thiết kế Khung Test Prompt & Điều khiển Runtime (Bottom Bar)</h2>
+<p class="subtitle">Cách tổ chức các tham số Model, Provider, Sandbox Mode và nút Gửi / Dừng trên thanh công cụ đáy Drawer</p>
+
+<div class="split" style="margin-bottom: 24px; gap: 16px;">
+  <!-- Phương án A -->
+  <div class="mockup" style="flex: 1; border: 1px solid #0284c7; background: #fff;">
+    <div class="mockup-header" style="background: #e0f2fe; color: #0369a1; font-weight: 600; display: flex; justify-content: space-between;">
+      <span>Phương án 1: Compact Quick-Bar (Khuyên dùng)</span>
+      <span style="font-size: 11px; background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px;">Minimal Friction</span>
+    </div>
+    <div class="mockup-body" style="padding: 14px; font-size: 13px;">
+      <div style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; background: #f8fafc;">
+        <div style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
+          <!-- Model badge selector -->
+          <span style="background: #e2e8f0; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: 500;">Model: claude-sonnet-5 ▾</span>
+          <span style="background: #e2e8f0; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: 500;">Effort: medium ▾</span>
+          <span style="font-size: 11px; color: #0284c7; margin-left: auto; cursor: pointer;">⚙ Nâng cao (Instruction, Sandbox)</span>
+        </div>
+        <div style="background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px; min-height: 48px; color: #94a3b8; font-size: 13px;">
+          Nhập prompt kiểm thử... (Ctrl + Enter để gửi)
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+          <span style="font-size: 11px; color: #64748b;">Enter để xuống dòng, Ctrl+Enter gửi</span>
+          <button style="background: #0284c7; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 500; cursor: pointer;">Gửi Prompt ▶</button>
+        </div>
+      </div>
+      <p style="color: #475569; font-size: 12px; margin-top: 10px; margin-bottom: 0;"><strong>Đặc điểm:</strong> Thanh nhập tinh gọn, tập trung vào prompt. Các tham số nâng cao (System Instruction, Sandbox, Working Dir) được thu gọn vào popover cấu hình khi cần.</p>
+    </div>
+  </div>
+
+  <!-- Phương án B -->
+  <div class="mockup" style="flex: 1; border: 1px solid #cbd5e1; background: #fff;">
+    <div class="mockup-header" style="background: #f1f5f9; color: #334155; font-weight: 600;">
+      <span>Phương án 2: Full Inspector Panel (Tabbed Inputs)</span>
+    </div>
+    <div class="mockup-body" style="padding: 14px; font-size: 13px;">
+      <div style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; background: #f8fafc;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+          <div>
+            <label style="font-size: 11px; font-weight: 600; color: #475569;">Provider / Model</label>
+            <div style="background: #fff; border: 1px solid #cbd5e1; padding: 4px 6px; font-size: 12px; border-radius: 4px;">Claude (Sonnet 5)</div>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 600; color: #475569;">Sandbox Mode</label>
+            <div style="background: #fff; border: 1px solid #cbd5e1; padding: 4px 6px; font-size: 12px; border-radius: 4px;">read-only</div>
+          </div>
+        </div>
+        <div style="margin-bottom: 8px;">
+          <label style="font-size: 11px; font-weight: 600; color: #475569;">System Instruction Override</label>
+          <div style="background: #fff; border: 1px solid #cbd5e1; padding: 4px 6px; font-size: 11px; color: #94a3b8; border-radius: 4px;">Bạn là lập trình viên chuyên nghiệp...</div>
+        </div>
+        <div style="background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px; min-height: 40px; color: #94a3b8; font-size: 13px;">
+          User prompt...
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+          <button style="background: #0284c7; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 500;">Gửi Prompt ▶</button>
+        </div>
+      </div>
+      <p style="color: #475569; font-size: 12px; margin-top: 10px; margin-bottom: 0;"><strong>Đặc điểm:</strong> Hiển thị đầy đủ tất cả tham số của <code>CodexSdkPromptRequest</code> ngay lập tức. Tuy nhiên chiếm khoảng 220px chiều cao đáy Drawer.</p>
+    </div>
+  </div>
+</div>
+
+<h3>Bạn chọn phương án tổ chức thanh nhập liệu nào?</h3>
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Phương án 1: Compact Quick-Bar (Khuyên dùng)</h3>
+      <p>Thanh nhập liệu tối giản, tập trung vào prompt và model chính. Các trường instruction/sandbox mở qua popup cấu hình khi cần.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Phương án 2: Full Inspector Panel</h3>
+      <p>Trưng bày đầy đủ các trường System Instruction, Sandbox, Working Dir trực tiếp trên thanh công cụ đáy.</p>
+    </div>
+  </div>
+</div>

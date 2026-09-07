@@ -1,0 +1,85 @@
+<h2>Lựa chọn Thiết kế Hiển thị Tool Calls & Turn Metrics</h2>
+<p class="subtitle">Cách biểu diễn các lượt gọi công cụ (Tool Calls), payload JSON và thông số đo lường hiệu năng trên Timeline</p>
+
+<div class="split" style="margin-bottom: 24px; gap: 16px;">
+  <!-- Phương án 1 -->
+  <div class="mockup" style="flex: 1; border: 1px solid #0284c7; background: #fff;">
+    <div class="mockup-header" style="background: #e0f2fe; color: #0369a1; font-weight: 600; display: flex; justify-content: space-between;">
+      <span>Phương án 1: Inline Accordion Card (Linear Style)</span>
+      <span style="font-size: 11px; background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 4px;">Khuyên dùng</span>
+    </div>
+    <div class="mockup-body" style="padding: 14px; font-size: 13px;">
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+        <div style="font-weight: 600; color: #334155; margin-bottom: 6px;">Assistant Turn #3</div>
+        <div style="margin-bottom: 8px; color: #1e293b;">Tôi đã kiểm tra repository và tìm thấy các file sau:</div>
+
+        <!-- Collapsible Tool block -->
+        <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <span style="font-family: monospace; font-weight: 600; color: #0f172a;">▶ tool: bash (git_status)</span>
+            <span style="font-size: 11px; color: #64748b;">320ms • 1 call</span>
+          </div>
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 12px; font-family: monospace; background: #0f172a; color: #f8fafc; padding: 8px; border-radius: 4px;">
+            $ git status --short<br>
+            M services/ai-agent-mcrs<br>
+            ?? dev-tool-web
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; margin-top: 6px;">
+          <span>claude-sonnet-5</span>
+          <span>1,420 tokens • 1.6s</span>
+        </div>
+      </div>
+      <p style="color: #475569; font-size: 12px; margin-bottom: 0;"><strong>Đặc điểm:</strong> Giữ nguyên mạch đọc đàm thoại. Các lệnh tool thu gọn thành thanh bấm, khi cần xem log chi tiết chỉ cần click mở rộng ngay tại chỗ.</p>
+    </div>
+  </div>
+
+  <!-- Phương án 2 -->
+  <div class="mockup" style="flex: 1; border: 1px solid #cbd5e1; background: #fff;">
+    <div class="mockup-header" style="background: #f1f5f9; color: #334155; font-weight: 600;">
+      <span>Phương án 2: Sequential Step Cards (BPMN/Timeline Flow)</span>
+    </div>
+    <div class="mockup-body" style="padding: 14px; font-size: 13px;">
+      <!-- Step 1: User -->
+      <div style="border-left: 2px solid #3b82f6; padding-left: 10px; margin-bottom: 10px;">
+        <span style="font-size: 11px; color: #64748b;">Step 1 • User</span>
+        <div style="color: #1e293b;">Check git status giùm tôi</div>
+      </div>
+
+      <!-- Step 2: Tool Call Event -->
+      <div style="border-left: 2px solid #f59e0b; padding-left: 10px; margin-bottom: 10px; background: #fffbeb; padding: 8px 10px; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: #b45309;">
+          <span>Step 2 • Tool Call: bash</span>
+          <span>320ms</span>
+        </div>
+        <div style="font-family: monospace; font-size: 11px; color: #78350f;">command: "git status --short"</div>
+      </div>
+
+      <!-- Step 3: Assistant Final -->
+      <div style="border-left: 2px solid #10b981; padding-left: 10px;">
+        <span style="font-size: 11px; color: #64748b;">Step 3 • Assistant Result</span>
+        <div style="color: #1e293b;">Repository có 2 thay đổi...</div>
+      </div>
+      <p style="color: #475569; font-size: 12px; margin-top: 12px; margin-bottom: 0;"><strong>Đặc điểm:</strong> Trải từng bước tuần tự theo thời gian thực như một workflow engine. Phù hợp cho QA debug sâu từng step nhưng chiếm nhiều diện tích cuộn.</p>
+    </div>
+  </div>
+</div>
+
+<h3>Bạn thích cách hiển thị Tool Calls & Metrics theo cấu trúc nào?</h3>
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Phương án 1: Inline Accordion Card (Linear Style) — Khuyên dùng</h3>
+      <p>Tool calls nằm gọn gàng bên trong turn của Assistant, click mở rộng xem code JSON / Terminal stdout; metrics đặt ở chân thẻ tin nhắn.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Phương án 2: Sequential Step Cards (Timeline Flow)</h3>
+      <p>Mỗi Tool Call và Tool Result là một thẻ riêng biệt tuần tự trên timeline. Rõ ràng từng bước nhưng làm dài trang chat.</p>
+    </div>
+  </div>
+</div>

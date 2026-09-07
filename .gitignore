@@ -35,3 +35,5 @@ proxy-service/
 server-install/
 trade-bot-mcrs/
 agent-skill/
+
+.github/settings.xml

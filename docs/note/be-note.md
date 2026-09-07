@@ -28,10 +28,19 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
 ---
 
 ## 3. Chuẩn Flowable BPMN & Không tự chế Custom Engine
-- **Sai lầm:** Tự chế các Enum/Object trung gian thừa (`CODE_TASK`, custom graph DAG, custom condition object) làm phân mảnh kiến trúc và gây xung đột với engine.
+- **Sai lầm:** 
+  - Tự chế các Enum/Object trung gian thừa (`CODE_TASK`, custom graph DAG, custom condition object) làm phân mảnh kiến trúc và gây xung đột với engine.
+  - Gọi trực tiếp `SubmitAiTaskDelegate` hoặc AI executor từ `serviceTask` trong business workflow chính, gây dính chặt logic gọi AI vào business process.
 - **Quy chuẩn:**
   - Tận dụng 100% chuẩn BPMN 2.0 và Flowable Engine (`ServiceTask`, `CallActivity`, `ExclusiveGateway`, `IntermediateCatchEvent`, `MessageEvent`).
   - Toàn bộ tham số cấu hình truyền qua `extensionElements` (`flowable:field`, `flowable:in`, `flowable:out`).
+  - **Bắt buộc: Mọi workflow có gọi AI đều phải qua Sub-Process bằng `<callActivity>`:**
+    - Business workflow tuyệt đối không khai báo `serviceTask` gắn thẳng `SubmitAiTaskDelegate`.
+    - Phải dùng `<callActivity id="..." calledElement="callAiSdkSubProcess">` trỏ tới AI sub-process chuyên trách.
+    - Truyền tham số đầu vào qua `<flowable:in source="..." target="..." />` (`agentCode`, `provider`, `accountType`, `prompt`, `outputSchema`, `requestContext`).
+    - Nhận kết quả qua `<flowable:out source="..." target="..." />` (`aiStatus`, `aiOutput`, `finalOutcome`, `finalOutput`).
+    - Sub-process AI chịu trách nhiệm toàn bộ vòng đời thực thi AI, error handling, và chuẩn hóa output payload trước khi trả về process cha.
+    - **Nguyên tắc đóng gói Context:** `SubmitAiTaskDelegate` tuyệt đối không tự ý build hay chèn ngầm business context. Toàn bộ `requestContext` (campaignId, filters, search parameters, credentials...) bắt buộc phải do BPMN field hoặc Process cha cấu hình và truyền vào qua biến/expression `requestContext`.
 
 ---
 
@@ -68,3 +77,14 @@ Tài liệu ghi nhớ các lỗi sai và quy chuẩn kiến trúc bắt buộc k
   - **Service Test:** `src/test/java/.../{Module}ServiceTest.java` dùng Mockito (`mock(Storage.class)`), test đầy đủ các nhánh CRUD, exception `BusinessException(DATA_NOT_FOUND)`, update partial fields, v.v.
   - **MapperUtil Test Setup:** Khi khởi tạo `MapperUtil` trong test cần truyền đủ: `new MapperUtil(new ModelMapper(), new ObjectMapper())`.
   - **Validation Gate:** Luôn chạy `.\mvnw.cmd test` và `.\mvnw.cmd compile` đảm bảo 100% test pass và build thành công.
+
+---
+
+## 8. TUYỆT ĐỐI CẤM DÙNG LOGIC FALLBACK (NO FALLBACK RULE)
+- **Sai lầm:**
+  - Tự viết logic fallback ngầm (ví dụ: tự code client gọi trực tiếp tool MCP hoặc trả mock/cached data khi AI fail hay thiếu cấu hình).
+  - Tự động fallback bypass qua Agent runtime khiến hệ thống che giấu lỗi thật của AI runner, dẫn đến sai lệch kết quả đánh giá và phá vỡ quy trình BPMN.
+- **Quy chuẩn bắt buộc:**
+  - **100% chạy qua Agent Runtime thật:** Mọi tác vụ AI bắt buộc phải ủy quyền cho AI Agent Runtime (Codex CLI / Claude CLI) thực thi thông qua MCP server cấu hình chuẩn.
+  - **Không bypass, không fake dữ liệu:** Khi AI gặp lỗi (timeout, invalid output, thiếu token...), phải trả lỗi chính xác (`FAILED`, `FAILED_DEPENDENCY`, error details) để Flowable BPMN Engine bắt lỗi hoặc rẽ nhánh retry/gateway theo thiết kế.
+  - **Xóa bỏ hoàn toàn fallback code:** Mọi class/hàm mang tính chất bypass hoặc direct fallback (như direct tool call bypass agent) phải bị loại bỏ triệt để khỏi codebase.

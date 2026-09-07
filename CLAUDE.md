@@ -6,6 +6,7 @@ Trước khi bắt tay vào code hoặc sửa đổi bất kỳ phần nào trê
 
 1. **Frontend (FE):** Bắt buộc đọc file `docs/note/fe-note.md`
    - Dùng 100% Shared UI Components của dự án (`app-page-shell`, `app-action-toolbar`, `app-filter-panel`, `app-table`, `app-drawer`, `app-dialog`, `app-button`, `app-copyable-text`). Tuyệt đối không tự viết UI thô hay import `primeng/*` bên ngoài.
+   - Bắt buộc kiểm tra & tuân thủ tiêu chuẩn **UI/UX Pro Max** và **Taste Skill** trước khi code giao diện (`docs/note/fe-note.md` mục 7).
    - Tuân thủ interface `TableConfig<T>`.
    - Bắt buộc xử lý đa ngôn ngữ qua i18n (`docs/note/fe-note.md` mục 4).
    - Bắt buộc thiết kế Responsive & Mobile-First (`docs/note/fe-note.md` mục 5).

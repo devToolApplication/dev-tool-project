@@ -1,0 +1,52 @@
+<h2>Đánh giá & Định hướng Thiết kế Codex SDK Chat History Workbench</h2>
+<p class="subtitle">Đối chiếu giữa Implementation Plan và Design Document trước khi bắt đầu triển khai</p>
+
+<div class="mockup" style="margin-bottom: 24px;">
+  <div class="mockup-header" style="font-weight: 600;">Phân tích hiện trạng tài liệu (Plan vs Design)</div>
+  <div class="mockup-body" style="padding: 16px; font-size: 14px; line-height: 1.6;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 14px;">
+        <h4 style="margin-top: 0; color: #0284c7;">1. Điểm mạnh đã thống nhất (Cleared)</h4>
+        <ul style="padding-left: 20px; margin-bottom: 0;">
+          <li>Kiến trúc <strong>Table + Drawer</strong> đạt điểm cao về độ tập trung (/ui-ux-design-rule).</li>
+          <li>Loại bỏ thư viện ngoài, dùng native <code>fetch()</code> + <code>ReadableStream</code> để stream SSE token.</li>
+          <li>Điều hướng phân trang cursor-based riêng biệt bằng nút hành động trên toolbar.</li>
+          <li>100% Shared UI Components của dự án (<code>app-page-shell</code>, <code>app-table</code>, <code>app-drawer</code>).</li>
+        </ul>
+      </div>
+      <div style="background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 14px;">
+        <h4 style="margin-top: 0; color: #dc2626;">2. Điểm cần làm rõ thêm trong Brainstorming</h4>
+        <ul style="padding-left: 20px; margin-bottom: 0;">
+          <li><strong>Cơ chế chọn Model & Provider:</strong> Controller backend hỗ trợ Claude/OpenAI nhưng form test prompt hiện chỉ hardcode danh sách model.</li>
+          <li><strong>Metadata Inspection:</strong> Thông tin số turn, tokens sử dụng, latency thời gian phản hồi chưa có vị trí hiển thị chuẩn trên thẻ turn.</li>
+          <li><strong>Bộ lọc nâng cao:</strong> Tìm kiếm theo từ khóa vs lọc theo ngày/khoảng thời gian của thread.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Bạn muốn ưu tiên đào sâu và cải thiện khía cạnh nào trước?</h3>
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Tinh chỉnh Trải nghiệm Debug Tool & Metadata Inspection (Recommended)</h3>
+      <p>Làm rõ cách hiển thị chi tiết Tool Calls (input/output), token metrics, execution latency và provider badge trên từng turn đàm thoại.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Nâng cấp Khung Test Prompt & Cấu hình Model Đa năng</h3>
+      <p>Bổ sung lựa chọn Provider (Claude vs OpenAI Codex), cấu hình System Instruction động và Sandbox Mode ngay trong Bottom Bar.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Mở rộng Bộ lọc & Quản lý Danh sách Phiên (Table Level)</h3>
+      <p>Bổ sung bộ lọc khoảng ngày tạo, lọc theo trạng thái lưu trữ (Archived) và chức năng gắn tag/nhãn cho thread.</p>
+    </div>
+  </div>
+</div>
