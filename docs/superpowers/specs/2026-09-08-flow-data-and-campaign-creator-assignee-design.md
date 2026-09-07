@@ -16,6 +16,7 @@
    - Bao gồm 2 thành phần chính:
      - `CommonFlowData`: Dữ liệu dùng chung bắt buộc mọi quy trình đều có (ID tiến trình, mã định nghĩa, business key, người tạo, người duyệt, trạng thái, thời gian chạy, thông tin lỗi).
      - `T variableData`: Dữ liệu đặc thù theo từng loại quy trình (ví dụ `KocDiscoveryVariableData` cho quy trình tìm kiếm KOC).
+   - **Tuyệt đối hạn chế `Map<String, Object>`:** Tất cả cấu trúc danh sách, lịch sử tìm kiếm, dữ liệu ứng viên đều được định nghĩa bằng các Class/POJO cụ thể (`KocCandidateItem`, `KocSearchHistoryItem`), đảm bảo 100% type-safety và tránh lỗi runtime casting.
 2. **Chuẩn hóa logic Assignee:**
    - Người tạo (`creator`) được xác định nghiêm ngặt từ `RequestFilter.getUsername()` tại thời điểm tạo hoặc clone chiến dịch.
    - **Tuyệt đối không fallback:** Nếu không xác định được `creator` (không có token hoặc username rỗng), hệ thống lập tức từ chối với lỗi `UNAUTHORIZED`.
@@ -69,30 +70,82 @@ public class CommonFlowData implements Serializable {
 package com.lamld.aiAgent.modules.workflowprocess.domain.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Data;
 
+/**
+ * Base class cho payload biến thiên của từng workflow.
+ * Hạn chế tối đa Map<String, Object>, các workflow con khai báo tường minh các trường dữ liệu bằng class cụ thể.
+ */
 @Data
 public abstract class BaseVariableData implements Serializable {
   private static final long serialVersionUID = 1L;
-
-  private Map<String, Object> extra = new HashMap<>();
-
-  public void putExtra(String key, Object value) {
-    if (extra == null) {
-      extra = new HashMap<>();
-    }
-    extra.put(key, value);
-  }
-
-  public Object getExtra(String key) {
-    return extra != null ? extra.get(key) : null;
-  }
 }
 ```
 
-#### C. `FlowData<T extends BaseVariableData>` (Vỏ bọc dữ liệu tổng)
+#### C. `KocSearchHistoryItem` (Lịch sử các lần tìm kiếm)
+```java
+package com.lamld.aiAgent.modules.workflowprocess.domain.model;
+
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class KocSearchHistoryItem implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  private Integer round;
+  private String keyword;
+  private String cursorUsed;
+  private String nextCursor;
+}
+```
+
+#### D. `KocCandidateItem` (Mô hình dữ liệu ứng viên KOC trong luồng)
+```java
+package com.lamld.aiAgent.modules.workflowprocess.domain.model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class KocCandidateItem implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  private String externalProfileId;
+  private String fullName;
+  private String profileUrl;
+  private String platform;
+  private Long followerCount;
+  private Double engagementRate;
+  private String niche;
+  private Double score;
+  private Boolean isQualified;
+
+  @Builder.Default
+  private List<String> strengths = new ArrayList<>();
+
+  @Builder.Default
+  private List<String> risks = new ArrayList<>();
+
+  private String reviewNote;
+}
+```
+
+#### E. `FlowData<T extends BaseVariableData>` (Vỏ bọc dữ liệu tổng)
 ```java
 package com.lamld.aiAgent.modules.workflowprocess.domain.model;
 
@@ -116,14 +169,13 @@ public class FlowData<T extends BaseVariableData> implements Serializable {
 }
 ```
 
-#### D. `KocDiscoveryVariableData` (Biến đặc thù quy trình KOC Discovery)
+#### F. `KocDiscoveryVariableData` (Biến đặc thù quy trình KOC Discovery)
 ```java
 package com.lamld.aiAgent.modules.workflowprocess.domain.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -170,23 +222,23 @@ public class KocDiscoveryVariableData extends BaseVariableData {
   private String discoveryDecision; // FIND_MORE, STOP
   private String threadId;
 
-  // Ngữ cảnh chống trùng lặp
+  // Ngữ cảnh chống trùng lặp (dùng class cụ thể KocSearchHistoryItem thay vì Map)
   @Builder.Default
-  private List<Map<String, Object>> searchHistory = new ArrayList<>();
+  private List<KocSearchHistoryItem> searchHistory = new ArrayList<>();
   @Builder.Default
   private Set<String> seenProfileIds = new HashSet<>();
   @Builder.Default
   private Set<String> seenProfileUrls = new HashSet<>();
 
-  // Tập dữ liệu ứng viên các giai đoạn
+  // Tập dữ liệu ứng viên các giai đoạn (dùng class cụ thể KocCandidateItem thay vì Map)
   @Builder.Default
-  private List<Map<String, Object>> rawCandidates = new ArrayList<>();
+  private List<KocCandidateItem> rawCandidates = new ArrayList<>();
   @Builder.Default
-  private List<Map<String, Object>> uniqueCandidates = new ArrayList<>();
+  private List<KocCandidateItem> uniqueCandidates = new ArrayList<>();
   @Builder.Default
-  private List<Map<String, Object>> reviewedCandidates = new ArrayList<>();
+  private List<KocCandidateItem> reviewedCandidates = new ArrayList<>();
   @Builder.Default
-  private List<Map<String, Object>> qualifiedCandidates = new ArrayList<>();
+  private List<KocCandidateItem> qualifiedCandidates = new ArrayList<>();
   @Builder.Default
   private List<String> savedCandidateIds = new ArrayList<>();
 }
