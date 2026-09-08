@@ -1,6 +1,6 @@
 # Kế hoạch Triển khai: Hiển thị Chi tiết Bước Xử lý Hiện tại của Chiến dịch KOC trên Màn hình Danh sách
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Hiển thị công đoạn xử lý thực tế của AI (quét KOC, lọc trùng, thẩm định tiêu chí, chờ quyết định, chờ phê duyệt) ngay tại cột trạng thái của danh sách chiến dịch KOC (`/koc/campaigns`).
 
@@ -17,7 +17,7 @@
 - Modify: `services/ai-agent-mcrs/src/main/java/com/lamld/aiAgent/modules/koccampaign/api/response/KocCampaignResponse.java:23-30`
 - Test: `services/ai-agent-mcrs/src/test/java/com/lamld/aiAgent/modules/koccampaign/application/KocCampaignServiceTest.java`
 
-- [ ] **Step 1: Viết test kiểm tra ánh xạ các trường bước mới trong `KocCampaignServiceTest`**
+- [x] **Step 1: Viết test kiểm tra ánh xạ các trường bước mới trong `KocCampaignServiceTest`**
 
 Thêm test case kiểm tra `getCampaignById` hoặc mapping trả về đầy đủ các trường `currentStep`, `currentStepTitle`, `currentRound`, `maxRounds`, `stepDetail`:
 ```java
@@ -46,12 +46,12 @@ void getCampaignById_returnsAllStepDetails() {
 }
 ```
 
-- [ ] **Step 2: Chạy test để xác nhận test thất bại (do chưa có trường trong Entity/Response)**
+- [x] **Step 2: Chạy test để xác nhận test thất bại (do chưa có trường trong Entity/Response)**
 
 Run: `mvn test -Dtest=KocCampaignServiceTest#getCampaignById_returnsAllStepDetails -f services/ai-agent-mcrs/pom.xml`
 Expected: FAIL với lỗi compile "cannot find symbol: method setCurrentStep"
 
-- [ ] **Step 3: Bổ sung các trường vào `KocCampaignEntity.java` và `KocCampaignResponse.java`**
+- [x] **Step 3: Bổ sung các trường vào `KocCampaignEntity.java` và `KocCampaignResponse.java`**
 
 Trong `KocCampaignEntity.java`:
 ```java
@@ -80,12 +80,12 @@ Trong `KocCampaignResponse.java`:
   private String stepDetail;
 ```
 
-- [ ] **Step 4: Chạy lại test để đảm bảo 100% pass**
+- [x] **Step 4: Chạy lại test để đảm bảo 100% pass**
 
 Run: `mvn test -Dtest=KocCampaignServiceTest -f services/ai-agent-mcrs/pom.xml`
 Expected: BUILD SUCCESS (All tests pass)
 
-- [ ] **Step 5: Commit thay đổi Entity & DTO**
+- [x] **Step 5: Commit thay đổi Entity & DTO**
 
 ```bash
 cd services/ai-agent-mcrs
@@ -104,7 +104,7 @@ cd ../..
 - Modify: `services/ai-agent-mcrs/src/main/java/com/lamld/aiAgent/modules/koccampaign/infrastructure/storage/KocCampaignStorage.java:50-55`
 - Create: `services/ai-agent-mcrs/src/test/java/com/lamld/aiAgent/modules/koccampaign/infrastructure/storage/KocCampaignStorageTest.java`
 
-- [ ] **Step 1: Viết failing unit test cho `updateWorkflowStep` trong `KocCampaignStorageTest`**
+- [x] **Step 1: Viết failing unit test cho `updateWorkflowStep` trong `KocCampaignStorageTest`**
 
 Tạo file `services/ai-agent-mcrs/src/test/java/com/lamld/aiAgent/modules/koccampaign/infrastructure/storage/KocCampaignStorageTest.java`:
 ```java
@@ -157,12 +157,12 @@ class KocCampaignStorageTest {
 }
 ```
 
-- [ ] **Step 2: Chạy test để xác nhận test thất bại**
+- [x] **Step 2: Chạy test để xác nhận test thất bại**
 
 Run: `mvn test -Dtest=KocCampaignStorageTest -f services/ai-agent-mcrs/pom.xml`
 Expected: FAIL với lỗi "cannot find symbol: method updateWorkflowStep"
 
-- [ ] **Step 3: Triển khai phương thức `updateWorkflowStep` trong `KocCampaignStorage.java`**
+- [x] **Step 3: Triển khai phương thức `updateWorkflowStep` trong `KocCampaignStorage.java`**
 
 Bổ sung vào `KocCampaignStorage.java`:
 ```java
@@ -205,12 +205,12 @@ Bổ sung vào `KocCampaignStorage.java`:
   }
 ```
 
-- [ ] **Step 4: Chạy test để xác nhận test pass**
+- [x] **Step 4: Chạy test để xác nhận test pass**
 
 Run: `mvn test -Dtest=KocCampaignStorageTest -f services/ai-agent-mcrs/pom.xml`
 Expected: BUILD SUCCESS (100% pass)
 
-- [ ] **Step 5: Commit thay đổi `KocCampaignStorage`**
+- [x] **Step 5: Commit thay đổi `KocCampaignStorage`**
 
 ```bash
 cd services/ai-agent-mcrs
@@ -235,7 +235,7 @@ cd ../..
 - Test: `services/ai-agent-mcrs/src/test/java/com/lamld/aiAgent/modules/workflowprocess/infrastructure/flowable/delegate/UpdateCampaignStatusDelegateTest.java`
 - Test: `services/ai-agent-mcrs/src/test/java/com/lamld/aiAgent/modules/workflowprocess/infrastructure/flowable/delegate/InitializeDiscoveryStateDelegateTest.java`
 
-- [ ] **Step 1: Viết failing test cho `UpdateCampaignStatusDelegateTest` kiểm tra cập nhật step title**
+- [x] **Step 1: Viết failing test cho `UpdateCampaignStatusDelegateTest` kiểm tra cập nhật step title**
 
 Cập nhật `UpdateCampaignStatusDelegateTest.java` để xác minh khi delegate chạy với status `USER_TASK` hoặc `COMPLETED`, hàm `storage.updateWorkflowStep` được gọi với đúng `currentStep` và `currentStepTitle`:
 ```java
@@ -264,12 +264,12 @@ void execute_callsUpdateWorkflowStep_withDetailedStepInfo() {
 }
 ```
 
-- [ ] **Step 2: Chạy test để xác nhận thất bại**
+- [x] **Step 2: Chạy test để xác nhận thất bại**
 
 Run: `mvn test -Dtest=UpdateCampaignStatusDelegateTest#execute_callsUpdateWorkflowStep_withDetailedStepInfo -f services/ai-agent-mcrs/pom.xml`
 Expected: FAIL
 
-- [ ] **Step 3: Cập nhật `UpdateCampaignStatusDelegate.java`**
+- [x] **Step 3: Cập nhật `UpdateCampaignStatusDelegate.java`**
 
 Trong `UpdateCampaignStatusDelegate.execute`:
 Xác định `currentStep`, `currentStepTitle`, `stepDetail` theo `targetStatus`:
@@ -292,7 +292,7 @@ storage.updateWorkflowStep(
 );
 ```
 
-- [ ] **Step 4: Cập nhật các delegates còn lại**
+- [x] **Step 4: Cập nhật các delegates còn lại**
 
 1. `InitializeDiscoveryStateDelegate`:
    - Sau khi lưu runId, gọi:
@@ -319,12 +319,12 @@ storage.updateWorkflowStep(
 6. `SaveKocCandidatesDelegate`:
    - Gọi `updateWorkflowStep(campaignId, "RUNNING", "SAVING_CANDIDATES", "Lưu ứng viên vào DB", varData.getSearchRound(), varData.getMaxSearchRounds(), "Đang lưu trữ danh sách ứng viên đạt chuẩn vào MongoDB")`.
 
-- [ ] **Step 5: Chạy lại toàn bộ test suite của delegates**
+- [x] **Step 5: Chạy lại toàn bộ test suite của delegates**
 
 Run: `mvn test -Dtest=*DelegateTest -f services/ai-agent-mcrs/pom.xml`
 Expected: BUILD SUCCESS (100% pass)
 
-- [ ] **Step 6: Commit thay đổi JavaDelegates**
+- [x] **Step 6: Commit thay đổi JavaDelegates**
 
 ```bash
 cd services/ai-agent-mcrs
@@ -343,7 +343,7 @@ cd ../..
 - Modify: `web/dev-tool-web/src/app/features/koc-campaign/models/koc-campaign.config.ts:98-110`
 - Modify: `web/dev-tool-web/src/app/core/i18n/features/koc-campaign.i18n.json`
 
-- [ ] **Step 1: Cập nhật `KocCampaignItem` trong `koc-campaign.model.ts`**
+- [x] **Step 1: Cập nhật `KocCampaignItem` trong `koc-campaign.model.ts`**
 
 Bổ sung các trường vào `KocCampaignItem`:
 ```typescript
@@ -354,7 +354,7 @@ Bổ sung các trường vào `KocCampaignItem`:
   stepDetail?: string;
 ```
 
-- [ ] **Step 2: Cập nhật cột `workflowStatus` trong `koc-campaign.config.ts`**
+- [x] **Step 2: Cập nhật cột `workflowStatus` trong `koc-campaign.config.ts`**
 
 Đổi cột `workflowStatus` thành `type: 'custom'` và mở rộng `minWidth` lên `13rem`:
 ```typescript
@@ -366,7 +366,7 @@ Bổ sung các trường vào `KocCampaignItem`:
       },
 ```
 
-- [ ] **Step 3: Bổ sung từ khóa dịch thuật vào `koc-campaign.i18n.json`**
+- [x] **Step 3: Bổ sung từ khóa dịch thuật vào `koc-campaign.i18n.json`**
 
 Thêm các khóa i18n cho Popover & Tooltip chi tiết:
 ```json
@@ -379,12 +379,12 @@ Thêm các khóa i18n cho Popover & Tooltip chi tiết:
   "kocCampaign.step.initializing": "Đang khởi tạo"
 ```
 
-- [ ] **Step 4: Kiểm tra typecheck TypeScript**
+- [x] **Step 4: Kiểm tra typecheck TypeScript**
 
 Run: `npx tsc --noEmit -p web/dev-tool-web/tsconfig.app.json`
 Expected: 0 errors
 
-- [ ] **Step 5: Commit thay đổi Model, Config & i18n**
+- [x] **Step 5: Commit thay đổi Model, Config & i18n**
 
 ```bash
 cd web/dev-tool-web
@@ -404,7 +404,7 @@ cd ../..
 - Modify: `web/dev-tool-web/src/app/features/koc-campaign/pages/koc-campaign-list/koc-campaign-list.component.ts:60-70`
 - Test: `web/dev-tool-web/src/app/features/koc-campaign/pages/koc-campaign-list/koc-campaign-list.component.spec.ts`
 
-- [ ] **Step 1: Viết failing unit test trong `koc-campaign-list.component.spec.ts`**
+- [x] **Step 1: Viết failing unit test trong `koc-campaign-list.component.spec.ts`**
 
 Viết test kiểm tra `customTemplates` có `workflowStatus` và render đúng thông tin bước:
 ```typescript
@@ -427,12 +427,12 @@ it('should render detailed two-line status with step title and round in workflow
 });
 ```
 
-- [ ] **Step 2: Chạy test để xác nhận test thất bại**
+- [x] **Step 2: Chạy test để xác nhận test thất bại**
 
 Run: `npm test -- --include="src/app/features/koc-campaign/pages/koc-campaign-list/koc-campaign-list.component.spec.ts" --watch=false`
 Expected: FAIL
 
-- [ ] **Step 3: Bổ sung `workflowStatusCellTpl` vào `koc-campaign-list.component.html`**
+- [x] **Step 3: Bổ sung `workflowStatusCellTpl` vào `koc-campaign-list.component.html`**
 
 1. Đăng ký template vào `[customTemplates]`:
 ```html
@@ -530,19 +530,19 @@ Expected: FAIL
   </ng-template>
 ```
 
-- [ ] **Step 4: Thêm signal `activeStepDetail` vào `KocCampaignListComponent`**
+- [x] **Step 4: Thêm signal `activeStepDetail` vào `KocCampaignListComponent`**
 
 Trong `koc-campaign-list.component.ts`:
 ```typescript
 readonly activeStepDetail = signal<string | null>(null);
 ```
 
-- [ ] **Step 5: Chạy unit test để đảm bảo pass 100%**
+- [x] **Step 5: Chạy unit test để đảm bảo pass 100%**
 
 Run: `npm test -- --include="src/app/features/koc-campaign/**/*.spec.ts" --watch=false`
 Expected: 100% pass
 
-- [ ] **Step 6: Commit thay đổi Component & Template**
+- [x] **Step 6: Commit thay đổi Component & Template**
 
 ```bash
 cd web/dev-tool-web
@@ -560,7 +560,7 @@ cd ../..
 **Files:**
 - Create: `web/dev-tool-web/e2e/koc-campaign-step-status.e2e.spec.ts`
 
-- [ ] **Step 1: Viết test Playwright E2E `koc-campaign-step-status.e2e.spec.ts`**
+- [x] **Step 1: Viết test Playwright E2E `koc-campaign-step-status.e2e.spec.ts`**
 
 ```typescript
 import { test, expect } from '@playwright/test';
@@ -618,12 +618,12 @@ test.describe('KOC Campaign Detailed Step Status', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy Playwright test local kiểm tra**
+- [x] **Step 2: Chạy Playwright test local kiểm tra**
 
 Run: `npx playwright test e2e/koc-campaign-step-status.e2e.spec.ts`
 Expected: 1 passed
 
-- [ ] **Step 3: Dọn dẹp dev server và commit test E2E**
+- [x] **Step 3: Dọn dẹp dev server và commit test E2E**
 
 ```bash
 cd web/dev-tool-web
