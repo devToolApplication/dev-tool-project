@@ -17,9 +17,12 @@ __pycache__/
 # Claude & Codex local runtime
 .claude/
 .codex/
+.superpowers/brainstorm/
 .tool/
 .ua/
 .worktrees/
+cookies.txt
+test-results/
 
 # Legacy root workspace copies (now managed under submodules: services/, libs/, web/, infra/, tools/)
 ai-agent-mcrs/
