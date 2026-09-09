@@ -34,3 +34,6 @@
 [submodule "libs/develop-tool-nodejs-core-lib"]
 	path = libs/develop-tool-nodejs-core-lib
 	url = https://github.com/devToolApplication/develop-tool-nodejs-core-lib.git
+[submodule "services/quant-backtest"]
+	path = services/quant-backtest
+	url = https://github.com/devToolApplication/quant-backtest.git
